@@ -1,0 +1,10 @@
+## Zadanie 1
+
+Zaimplementować dwukierunkową komunikację przez UDP Java-Java. 
+
+-  Klient wysyła wiadomość i odczytuje
+odpowiedź
+- Serwer otrzymuje wiadomość i wysyła
+odpowiedź
+- Należy pobrać adres nadawcy z
+otrzymanego datagramu
