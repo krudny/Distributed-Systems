@@ -10,6 +10,5 @@ wysłać następujący ciąg bajtów:
 msg_bytes = (300).to_bytes(4, byteorder='little')
 ```
 
-
 -  Server Javy ma wypisać otrzymaną liczbę
 oraz odesłać liczbę zwiększoną o jeden

@@ -1,10 +1,14 @@
-## Zadanie 1
+## Zadanie 3
 
-Zaimplementować dwukierunkową komunikację przez UDP Java-Java. 
+Zaimplementować przesłanie wartości liczbowej pomiędzy serwerami napisanymi w Javie i Pythonie. 
 
--  Klient wysyła wiadomość i odczytuje
-odpowiedź
-- Serwer otrzymuje wiadomość i wysyła
-odpowiedź
-- Należy pobrać adres nadawcy z
-otrzymanego datagramu
+- Symulujemy komunikację z platformą o
+innej kolejności bajtów: klient Python ma
+wysłać następujący ciąg bajtów:
+
+```python
+msg_bytes = (300).to_bytes(4, byteorder='little')
+```
+
+-  Server Javy ma wypisać otrzymaną liczbę
+oraz odesłać liczbę zwiększoną o jeden
