@@ -17,8 +17,7 @@ public class Client {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             InetAddress address = InetAddress.getByName(hostname);
-            DatagramSocket udpSendSocket = new DatagramSocket();
-            DatagramSocket udpReceiveSocket = new DatagramSocket();
+            DatagramSocket udpSocket = new DatagramSocket(socket.getLocalPort());
 
             new Thread(() -> {
                 try {
@@ -39,10 +38,10 @@ public class Client {
                     DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
 
                     while (true) {
-                        udpReceiveSocket.receive(receivePacket);
+                        udpSocket.receive(receivePacket);
                         String receivedMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
                         System.out.print("\033[2K\r");
-                        System.out.println(username + ": " + receivedMessage);
+                        System.out.println(receivedMessage);
                         System.out.print(username + ": ");
                     }
                 } catch (IOException e) {
@@ -51,8 +50,6 @@ public class Client {
             }).start();
 
             out.println(username);
-            out.println(udpSendSocket.getLocalPort());
-            out.println(udpReceiveSocket.getLocalPort());
 
             while (true) {
                 System.out.print(username + ": ");
@@ -69,7 +66,7 @@ public class Client {
                 } else if (protocol == 'U' || protocol == 'u') {
                     byte[] sendBuffer = content.getBytes();
                     DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, address, port);
-                    udpSendSocket.send(sendPacket);
+                    udpSocket.send(sendPacket);
 
                 } else {
                     System.out.println("Nieprawidłowy wybór protokołu. Wpisz 'T' lub 'U' na początku wiadomości.");

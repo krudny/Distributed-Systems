@@ -1,12 +1,9 @@
 import java.io.*;
 import java.net.*;
-import java.util.Collections;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Server {
     private static ConcurrentHashMap<Socket, String> connectedClients = new ConcurrentHashMap<>();
-    private static ConcurrentHashMap<InetSocketAddress, Integer> clientAddresses = new ConcurrentHashMap<>();
 
     public static void main(String[] args) throws IOException {
         int port = 12345;
@@ -15,11 +12,11 @@ public class Server {
 
         System.out.println("Serwer nasłuchuje na porcie " + port);
 
-        new Thread(new UdpClientHandler(udpSocket, clientAddresses)).start();
+        new Thread(new UdpClientHandler(udpSocket, connectedClients)).start();
 
         while (true) {
             Socket clientSocket = serverSocket.accept();
-            new Thread(new ClientHandler(clientSocket, connectedClients, clientAddresses)).start();
+            new Thread(new ClientHandler(clientSocket, connectedClients)).start();
         }
     }
 }

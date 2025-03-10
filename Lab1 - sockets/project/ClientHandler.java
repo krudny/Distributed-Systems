@@ -13,13 +13,10 @@ class ClientHandler implements Runnable {
     private final Socket currentSocket;
     private String username;
     private final ConcurrentHashMap<Socket, String> connectedClients;
-    private ConcurrentHashMap<InetSocketAddress, Integer> clientAddresses;
 
-    public ClientHandler(Socket socket, ConcurrentHashMap<Socket, String> connectedClients,
-                         ConcurrentHashMap<InetSocketAddress, Integer> clientAddresses) {
+    public ClientHandler(Socket socket, ConcurrentHashMap<Socket, String> connectedClients){
         this.currentSocket = socket;
         this.connectedClients = connectedClients;
-        this.clientAddresses = clientAddresses;
     }
 
     @Override
@@ -28,11 +25,8 @@ class ClientHandler implements Runnable {
             BufferedReader in = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
 
             username = in.readLine();
-            int udpSendingPort = Integer.parseInt(in.readLine());
-            int udpListeningPort = Integer.parseInt(in.readLine());
+
             connectedClients.put(currentSocket, username);
-            InetSocketAddress clientSocketAddress = new InetSocketAddress(currentSocket.getInetAddress(), udpListeningPort);
-            clientAddresses.put(clientSocketAddress, udpSendingPort);
             System.out.println("Nowy użytkownik " + username + " dołączył do czatu!");
 
             String message;
