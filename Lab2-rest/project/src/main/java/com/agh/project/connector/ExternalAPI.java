@@ -1,6 +1,7 @@
 package com.agh.project.connector;
 
 import com.agh.project.model.Beer;
+import com.jayway.jsonpath.JsonPath;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,20 @@ import reactor.core.publisher.Mono;
 @Service
 @AllArgsConstructor
 public class ExternalAPI {
-    private final WebClient webClient;
+    private final WebClient punkApiWebClient;
+    private final WebClient translatorApiWebClient;
+
+    public Flux<Beer> fetchRandomBeers() {
+        return punkApiWebClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/beers/random")
+                        .build())
+                .retrieve()
+                .bodyToFlux(Beer.class);
+    }
 
     public Flux<Beer> fetchBeers(int page, int perPage) {
-        return webClient.get()
+        return punkApiWebClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/beers")
                         .queryParam("page", page)
@@ -25,6 +36,17 @@ public class ExternalAPI {
                         .build())
                 .retrieve()
                 .bodyToFlux(Beer.class);
+    }
+
+    public Mono<String> translate(String text, String targetLanguage) {
+        return translatorApiWebClient.post()
+                .uri(uriBuilder -> uriBuilder
+                        .queryParam("target", targetLanguage)
+                        .queryParam("q", text)
+                        .build())
+                .retrieve()
+                .bodyToMono(String.class)
+                .map(response -> JsonPath.read(response, "$.data.translations[0].translatedText"));
     }
 
 }
