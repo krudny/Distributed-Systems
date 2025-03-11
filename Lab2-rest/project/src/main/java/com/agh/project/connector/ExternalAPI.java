@@ -12,14 +12,9 @@ import reactor.core.publisher.Mono;
 
 
 @Service
-
+@AllArgsConstructor
 public class ExternalAPI {
     private final WebClient webClient;
-
-    @Autowired
-    public ExternalAPI(WebClient webClient) {
-        this.webClient = webClient;
-    }
 
     public Flux<Beer> fetchBeers(int page, int perPage) {
         return webClient.get()
