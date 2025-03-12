@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piwko można</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+</head>
+<body>
+<h1 class="header">Obczaj piwko byczku</h1>
+<div id="beer--wrapper">
+</div>
+
+<script>
+    async function fetchBeers() {
+        try {
+            const response = await fetch('http://localhost:8080/beers/random?quantity=12&language=pl');
+            const beers = await response.json();
+
+            const beerListElement = document.getElementById('beer--wrapper');
+
+            function shortenText(text) {
+                if (text.length > 20) {
+                    return text.substring(0, 20) + '..';
+                }
+                return text;
+            }
+
+            function shortenDesc(text) {
+                if (text.length > 120) {
+                    return text.substring(0, 120) + '..';
+                }
+                return text;
+            }
+
+            beers.forEach(beer => {
+                const beerElement = document.createElement('div');
+                beerElement.classList.add('beer--item');
+
+                let imageSrc = ["keg.png", "cask.png"].includes(beer.image) ? "001.png" : beer.image;
+
+                const imgElement = document.createElement('img');
+                imgElement.classList.add('image');
+                imgElement.src = `https://punkapi.online/v3/images/${imageSrc}`;
+
+                imgElement.onload = function () {
+                    if (imgElement.naturalHeight / imgElement.naturalWidth < 3) {
+                        imgElement.src = "https://punkapi.online/v3/images/002.png";
+                    }
+                };
+
+                beerElement.appendChild(imgElement);
+
+                const infoElement = document.createElement('div');
+                infoElement.classList.add('info');
+                infoElement.innerHTML = `
+                    <p class="info--head">${shortenText(beer.name)}</p>
+                    <p class="info--sub">ABV: ${beer.abv}%</p>
+                `;
+
+                const backgroundElement = document.createElement('div');
+                backgroundElement.classList.add('background');
+                backgroundElement.innerHTML = `<p class="desc">${shortenDesc(beer.description)}</p>`;
+
+                beerElement.appendChild(infoElement);
+                beerElement.appendChild(backgroundElement);
+                beerListElement.appendChild(beerElement);
+            });
+        } catch (error) {
+            console.error('Błąd podczas pobierania danych:', error);
+        }
+    }
+
+    window.onload = fetchBeers;
+</script>
+</body>
+</html>

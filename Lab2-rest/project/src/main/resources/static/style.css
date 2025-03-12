@@ -1,0 +1,84 @@
+body {
+    font-family: "Oswald", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    width: 100vw;
+}
+
+.header {
+    width: 100%;
+    text-align: center;
+    font-size: 50px;
+}
+
+#beer--wrapper {
+    max-width: 1400px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin: auto;
+    gap: 20px;
+}
+
+.beer--item {
+    border: 5px solid #000;
+    padding: 20px;
+    position: relative;
+    min-height: 450px;
+}
+
+.info {
+    /*background-color: red;*/
+    position: absolute;
+    top: 10%;
+    right: 5px;
+    width: 230px;
+    text-align: right;
+}
+
+.info > p {
+    margin: 5px;
+}
+
+.info--head {
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.info--sub {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.image {
+    max-height: 400px;
+    object-fit: contain;
+    max-width: 100px;
+    margin-top: auto;
+    position: absolute;
+    bottom: 20px;
+}
+
+.background {
+    width: 100%;
+    height: 150px;
+    background-color: #ffd121;
+    position: absolute;
+    left: 0;
+    bottom: 10%;
+    text-align: right;
+    padding: 10px;
+    box-sizing: border-box;
+    color: #000;
+    z-index: -1;
+    display: flex;
+
+    justify-content: flex-end;
+}
+
+.desc {
+    width: 180px;
+}
+
+.background p {
+    margin: 0;
+}

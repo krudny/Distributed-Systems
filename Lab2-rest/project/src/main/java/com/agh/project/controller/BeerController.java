@@ -3,10 +3,7 @@ package com.agh.project.controller;
 import com.agh.project.model.Beer;
 import com.agh.project.service.BeerService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/beers")
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class BeerController {
     private final BeerService beerService;
 
