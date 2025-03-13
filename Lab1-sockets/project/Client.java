@@ -22,6 +22,7 @@ public class Client {
 
             InetAddress address = InetAddress.getByName(hostname);
             DatagramSocket udpSocket = new DatagramSocket(socket.getLocalPort());
+
             InetAddress multicastAddress = InetAddress.getByName(multicastHost);
             MulticastSocket multicastSocket = new MulticastSocket(multicastPort);
             multicastSocket.joinGroup(new InetSocketAddress(multicastAddress, multicastPort), NetworkInterface.getByInetAddress(InetAddress.getLocalHost()));
