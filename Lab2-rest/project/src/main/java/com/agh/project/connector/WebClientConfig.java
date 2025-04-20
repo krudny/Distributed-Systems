@@ -17,6 +17,6 @@ public class WebClientConfig {
 
     @Bean
     public WebClient translatorApiWebClient(WebClient.Builder builder) {
-        return builder.baseUrl("https://translation.googleapis.com/language/translate/v2?key=AIzaSyD7w6B4s9Vqp7V3_uijp-ZKObqv4GPgDTo").build();
+        return builder.baseUrl("https://translation.googleapis.com/language/translate/v2?key=*ENTER HERE GOOGLE TRANSLATE KEY*").build();
     }
 }

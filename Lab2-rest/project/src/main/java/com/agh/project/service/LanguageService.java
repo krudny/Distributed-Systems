@@ -20,7 +20,6 @@ public class LanguageService {
     }
 
     public Mono<String> translate(String text, String language) {
-        // TODO: validate
         return externalAPI.translate(text, language);
     }
 }

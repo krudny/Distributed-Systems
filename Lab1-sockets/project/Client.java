@@ -16,17 +16,21 @@ public class Client {
 
 
         try {
+            // utworzenie socketu TCP
             Socket socket = new Socket(hostname, port);
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
+            // utworzenie socketu UDP
             InetAddress address = InetAddress.getByName(hostname);
             DatagramSocket udpSocket = new DatagramSocket(socket.getLocalPort());
 
+            // utworzenie socketu Multicastowego
             InetAddress multicastAddress = InetAddress.getByName(multicastHost);
             MulticastSocket multicastSocket = new MulticastSocket(multicastPort);
             multicastSocket.joinGroup(new InetSocketAddress(multicastAddress, multicastPort), NetworkInterface.getByInetAddress(InetAddress.getLocalHost()));
 
+            // wątek nasłuchujący TCP
             new Thread(() -> {
                 try {
                     String receivedMessage;
@@ -40,6 +44,7 @@ public class Client {
                 }
             }).start();
 
+            // wątek nasłuchujący UDP
             new Thread(() -> {
                 try {
                     byte[] buffer = new byte[1024];
@@ -57,6 +62,7 @@ public class Client {
                 }
             }).start();
 
+            // wątek nasłuchujący Multicast
             new Thread(() -> {
                 try {
                     byte[] buffer = new byte[1024];
@@ -81,6 +87,7 @@ public class Client {
 
             out.println(username);
 
+            // wysyłanie wiadomości
             while (true) {
                 System.out.print(username + ": ");
                 String message = scanner.nextLine();

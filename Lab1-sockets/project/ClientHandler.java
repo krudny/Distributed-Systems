@@ -24,11 +24,12 @@ class ClientHandler implements Runnable {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
 
+            // zapisanie nowego klienta TCP
             username = in.readLine();
-
             connectedClients.put(currentSocket, username);
             System.out.println("Nowy użytkownik " + username + " dołączył do czatu!");
 
+            // rozsyłanie do pozostałych klientów
             String message;
             while ((message = in.readLine()) != null) {
                 for (Socket socket : connectedClients.keySet()) {

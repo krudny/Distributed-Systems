@@ -14,6 +14,7 @@ public class UdpClientHandler implements Runnable {
 
     @Override
     public void run() {
+        // rozsyłanie wiadomosci UDP do pozostalych klientów
         while (true) {
             try {
                 DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
