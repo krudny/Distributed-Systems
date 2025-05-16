@@ -1,0 +1,27 @@
+syntax = "proto3";
+package location;
+
+message Empty {}
+
+message LocationRequest {
+  string userId   = 1;
+  double latitude = 2;
+  double longitude= 3;
+  int64 timestamp = 4;
+}
+
+message UserIdRequest {
+  string userId = 1;
+}
+
+message LocationResponse {
+  string userId   = 1;
+  double latitude = 2;
+  double longitude= 3;
+  int64 timestamp = 4;
+}
+
+service LocationService {
+  rpc SendLocation(LocationRequest) returns (Empty);
+  rpc SubscribeLocations(UserIdRequest) returns (stream LocationResponse);
+}

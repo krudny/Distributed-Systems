@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": false, // Możesz ustawić na false, aby włączyć sprawdzanie typów w plikach .d.ts
+    "esModuleInterop": true, // Może powodować problemy z importami CommonJS
+    "allowSyntheticDefaultImports": true, // Powiązane z esModuleInterop
+    "strict": false, // Wyłącza większość ścisłych kontroli typów
+    "forceConsistentCasingInFileNames": false, // Nie wymusza konsekwentnej wielkości liter w nazwach plików
+    "noFallthroughCasesInSwitch": false, // Nie zgłasza błędów dla brakujących break w switch
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src"
+  ]
+}

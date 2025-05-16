@@ -1,0 +1,20 @@
+﻿# Room 1 - server 127.0.0.1:10001
+
+TemperatureSensor1.Proxy=Device/TemperatureSensor-1:tcp -h 127.0.0.1 -p 10001 : udp -h 127.0.0.1 -p 10001
+Fridge1.Proxy=Device/Fridge-1:tcp -h 127.0.0.1 -p 10001 : udp -h 127.0.0.1 -p 10001
+FridgeWithIce1.Proxy=Device/FridgeWithIce-1:tcp -h 127.0.0.1 -p 10001 : udp -h 127.0.0.1 -p 10001
+FridgeWithShoppingList1.Proxy=Device/FridgeWithShoppingList-1:tcp -h 127.0.0.1 -p 10001 : udp -h 127.0.0.1 -p 10001
+
+Lamp1.Proxy=Device/Lamp-1:tcp -h 127.0.0.1 -p 10001 : udp -h 127.0.0.1 -p 10001
+LedLamp1.Proxy=Device/LedLamp-1:tcp -h 127.0.0.1 -p 10001 : udp -h 127.0.0.1 -p 10001
+
+
+# Room 2 - server 127.0.0.2:10002
+
+TemperatureSensor2.Proxy=Device/TemperatureSensor-2:tcp -h 127.0.0.2 -p 10002 : udp -h 127.0.0.2 -p 10002
+Fridge2.Proxy=Device/Fridge-02:tcp -h 127.0.0.2 -p 10002 : udp -h 127.0.0.2 -p 10002
+FridgeWithIce2.Proxy=Device/FridgeWithIce-2:tcp -h 127.0.0.2 -p 10002 : udp -h 127.0.0.2 -p 10002
+FridgeWithShoppingList2.Proxy=Device/FridgeWithShoppingList-2:tcp -h 127.0.0.2 -p 10002 : udp -h 127.0.0.2 -p 10002
+
+Lamp2.Proxy=Device/Lamp-2:tcp -h 127.0.0.2 -p 10002 : udp -h 127.0.0.2 -p 10002
+LedLamp2.Proxy=Device/LedLamp-2:tcp -h 127.0.0.2 -p 10002 : udp -h 127.0.0.2 -p 10002

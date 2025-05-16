@@ -1,0 +1,9 @@
+services:
+  ray-notebook:
+    build: .
+    ports:
+      - "8888:8888"
+      - "8265:8265"
+    volumes:
+      - .:/workspace
+    shm_size: 1.5gb
