@@ -54,3 +54,12 @@ Wszystkie aktualizacje są widoczne w tej samej kolejności dla wszystkich klien
 - Koordynacja usług w architekturze mikroserwisów. 
 - Implementacja rozproszonych blokad.
 - Przechowywanie konfiguracji klastra dostępnej dla wszystkich komponentów. 
+
+## Jakie są gwarancje konsystentności Zookeepera?
+
+- sekwencyjność - aktualizacje są wykonywane w odpowiedniej kolejności 
+- atomowość - aktualizacje są wykonywane w całości, albo wycofywane
+- single system image - klient widzi taki sam obraz systemu, niezależnie od tego do którego serwisu jest podłączony
+- niezawodność - aktualizacje są stałe, dopóki ktoś ich nie zmieni
+- timeliness  - widok systemu dla klienta jest zawsze aktualny po danym przedziale czasu
+- zookeeper nie gwarantuje, że każdy klient będzie miał taki sam obraz systemu w tym samym czasie. 

@@ -56,6 +56,12 @@ print(ray.get(counter.increment.remote(0)))
 
 `Uwaga:` Powyższy kod wykona się na 1 wątku!
 
+## Trzy fazy życia aktora 
+
+- inicjalizacja - aktor jest tworzony razem z jego wewnętrznym stanem, może uzyskać połączenia/zasoby potrzebne do działania
+- processing - aktor aktywnie odbiera i przetwarza informacje. Zachowanie aktora jest definiowane przez wewnętrzą logikę.
+- termination - może wynikać z wielu zdarzeń takich jak skończenie wszystkich zadań lub dostanie sygnału do skończenia. Po zakończeniu aktor zwalnia używane zasoby. 
+
 Ray obsługuje heterogeniczność i elastyczność dzięki
 - `ray.wait([futures], num_returns=x)` - czekanie na dostępne wyniki, możliwość czekania na x pierwszych wyników
 - określeniau wymagań zasobowych dla zadań (`@ray.remote(num_cpus=2, num_gpus=1)`)

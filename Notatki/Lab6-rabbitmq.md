@@ -18,7 +18,7 @@
 
 ## Message Oriented Middleware
 
-Wiadomości to alternatywna dla klasycznych wywołań metod, zamiast sztywnego interfejsu komunikacja opiera się na formacie wiadomości. Pozwala to na luźne powiązania między komponentami systemu. MON to warstwa pośrednicząca obsługująca przesyłanie, buforowanie, routowanie i potwierdzanie wiadomości między producentami i konsumentami. 
+Wiadomości to alternatywna dla klasycznych wywołań metod, zamiast sztywnego interfejsu komunikacja opiera się na formacie wiadomości. Pozwala to na luźne powiązania między komponentami systemu. MOM to warstwa pośrednicząca obsługująca przesyłanie, buforowanie, routowanie i potwierdzanie wiadomości między producentami i konsumentami. 
 
 ## RabbitMQ
 
@@ -66,3 +66,34 @@ W RabbitMQ są dostępne dwie metody loadbalancingu:
 
 - Round Robin - domyślny algorytm - wiadomości są rozdzielane po kolei do dostępnych konsumentów
 - Fair Dispatch - każdy konsument otrzymuje tyle wiadomości ile jest w stanie przetworzyć, kontrolowane przez parametr prefetchCount który okresla maksymalną liczbę niepotwierdzonych wiadomości przypisanych do konsumenta. 
+
+
+## Pytania z kolokwiów
+
+### 1. Jakie są typy exchange i jak one działają?
+
+Exchange to mechanizm routingu w RabbitMQ, w którym nadawca nie wysyła wiadomości bezpośrednio do kolejki, tylko do exchange, które na podstawie zdefiniowanych reguł routingu oraz powiązań przekazuje wiadomość do odpowiedniej kolejki. Można wysyłać jedną wiadomość do wielu kolejek. 
+
+Typy exchange: 
+
+- direct - kluczem routingu musi być dokładna nazwa
+- fanout - działa jak broadcast, wiadomość trafi do wszystkich kolejek
+- topic - tylko prefix klucza musi się zgadzać, istnieją wildcardy, * - jedno słowo, # - zero lub dowolny ciąg znaków
+
+### 2. Rysunek do typów exchange
+
+![alt text](image-4.png)
+
+### 3. Opisz pojęcia
+
+#### QOS 
+
+QOS - Quality of Service to mechanizm który pozwala ograniczyć liczbę niepotwierdzonych wiadomości, jakie broker może wysłać do konsumenta zanim otworzyma potwierdzenie przetworzenia tych wiadomości. Ta liczba jest definiowana w parametrze prefetchCount który określa ile niepotwierdzonych wiadomości dany konsument może mieć.
+
+#### Load balancing
+
+Load balancing to mechanizm efektywnego rozdzielania wiadomości do przetworzenia pomiędzy dostępnych konsumentów. W rabbitMQ domyślnym mechanizmem load balancingu jest algorytm `Round Robin` który rozdziela wiadomości po kolei dla kolejnych dostępnych konsumentów. Inny algorytm to `Fair Dispatch`, który wysła tyle wiadomości do konsumenta, ile jest w stanie przetworzyć. Ta liczba jest definiowana w parametrze prefetchCount który określa ile niepotwierdzonych wiadomości dany konsument może mieć.
+
+#### Komunikacja asynchroniczna
+
+Komunikacja asynchroniczna pomiędzy dwoma procesami jest nieblokująca i nie wymaga, żeby oba procesy były aktywne w momencie wysyłania wiadomości. Nadawca po wysłaniu wiadomości może kontynuuować dalszą pracę.
