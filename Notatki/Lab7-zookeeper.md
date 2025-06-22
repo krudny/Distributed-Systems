@@ -63,3 +63,50 @@ Wszystkie aktualizacje są widoczne w tej samej kolejności dla wszystkich klien
 - niezawodność - aktualizacje są stałe, dopóki ktoś ich nie zmieni
 - timeliness  - widok systemu dla klienta jest zawsze aktualny po danym przedziale czasu
 - zookeeper nie gwarantuje, że każdy klient będzie miał taki sam obraz systemu w tym samym czasie. 
+
+## Pytania z kolokwiów
+
+### Opisz znode
+Znode służą jako rejestry danych w hierarchicznej strukturze przypominającej system plików, umożliwiając przechowywanie i zarządzanie danymi w systemach rozproszonych. 
+
+Znode to każdy węzeł w drzewie Zookeeper, który stanowi główną abstrakcję programistyczną w tym systemie. Każdy znode jest identyfikowany przez unikalną ścieżkę, gdzie komponenty oddzielone są znakiem "/".
+
+Wyróżniamy 3 typy znodeów: 
+
+- persystentne - zostają dopóki się ich manualnie nie usunie
+- efemeryczne - są usuwane po zakończeniu sesji, nie mogą mieć potomków
+- sekwencyjne - dostają losowy identyfikator przyrostowy w nazwie
+
+Każdy znode utrzymuje strukturę stat, która zawiera numery wersji dla zmian danych i ACL oraz znaczniki czasowe. Numer wersji zwiększa się za każdym razem gdy dane w znode ulegną zmianie, co pozwala ZooKeeperowi na walidację cache i koordynację aktualizacji.
+
+Dane przechowywane w każdym znode są odczytywane i zapisywane atomowo, każdy odczyt odczytuje wszystkie dane, a zapis nadpisuje wszystkie dane. Każdy węzeł posiada ACL, który ogranicza dostęp do operacji.
+
+Klienci mogą używać obserwatorów (watchers) na znode'ach, i kiedy nastąpi zmiana w znode to dostaną o tym powiadomienie. Jest to jednorazowe i po otrzymaniu powiadomienia trzeba na nowo zarejestrować obserwatora. 
+
+Każdy znode może przechowywać maksymalnie 1MB danych. 
+
+### Podaj przykładowy scenariusz wykorzystania ZooKeeper w systemie.
+
+Przykładowy scenariusz wykorzystania ZooKeeper to system zarządzania konfiguracją w klastrze Apache Kafka, gdzie ZooKeeper pełni rolę centralnego koordynatora dla rozproszonych brokerów. 
+
+W tym scenariuszu ZooKeeper zarządza metadanymi Kafka, przeprowadza wybory lidera brokerów i śledzi offsety konsumentów. Gdy nowy broker dołącza do klastra automatycznie rejestruje się w ZooKeeper jako węzeł efemeryczny. Jeżeli broker przestaje działać to zostaje automatycznie usunięty, a inne znode'y dostają powiadomienie o zmianie. 
+
+Dzięki takiemu rozwiązaniu konfiguracja klastra jest przechowywana centralnie i propagowana do wszystkich brokerów przy zmianach
+
+### Podaj wymagania aplikacji do wykorzystania ZooKeepera.
+
+Architektura musi być zaprojektowana do pracy z ZooKeeperem składającym się z nieparzystej liczby serwerów aby zapewnić podejmowanie decyzji w oparciu o kworum. 
+
+Aplikacja musi być przygotowana na rozłączanie sesji klienta, gdy serwer ZooKeeper nie może połączyć się z kworum dłużej niż skonfigurowany timeout. Musi implementować mechanizmu ponownego łączenia i odtwarzania stanu. 
+
+Aplikacja powinna wykorzystywać wszystkie trzy typy znodeów. 
+
+Aplikacja musi implementować mechanizm obserwatorów do reagowania na zmiany w czasie rzeczywistym. Po wyzwoleniu obserwatora aplikacja powinna go ponownie ustawić, żeby kontynuować monitorowanie systemu. 
+
+Aplikacja musi być przygotowana na automatyczną reelekcje lidera w przypadku awarii. 
+
+Aplikacja musi respektować limit 1MB danych na Znode. 
+
+Aplikacja powinna implementować odpowiednie listy kontroli dostępu ACL dla zabezpieczenia danych wrażliwych. 
+
+Aplikacja powinna działać asynchronicznie

@@ -63,6 +63,8 @@ Zasady:
 - buforowanie - możliwość cacheowania
 - system warstwowy - możliwość wprowadzenia warstw pośredniczących (np. proxy, cache)
 
+W REST wszystko jest zasobem dostępnym przez ogólnodostępny interfejs. Zasoby można identyfikować przez URI który składa się z URL i URN. 
+
 ## Operacja idempotentna
 
 Operacja jest idempotentna jeżeli wielokrotne wykonanie jej daje ten sam efekt co pojedyncze (np. GET, PUT, DELETE). To pozwala na bezpieczne powtarzanie żądań bez ryzyka zmiany stanu. 
