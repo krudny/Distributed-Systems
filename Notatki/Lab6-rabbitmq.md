@@ -97,3 +97,18 @@ Load balancing to mechanizm efektywnego rozdzielania wiadomości do przetworzeni
 #### Komunikacja asynchroniczna
 
 Komunikacja asynchroniczna pomiędzy dwoma procesami jest nieblokująca i nie wymaga, żeby oba procesy były aktywne w momencie wysyłania wiadomości. Nadawca po wysłaniu wiadomości może kontynuuować dalszą pracę.
+
+
+### Podaj podstawowe cechy routingu komunikatów (Exchange) w systemie RabbitMQ. zaprezentuj przykład zastosowania routingu Topic.
+
+RabbitMQ realizuje routing komunikatów za pomocą Exchange. Klienci zamiast wysyłać wiadomości bezpośrednio do kolejek, to wysyłają je do Exchange który automatycznie zarządza do której kolejki wiadomość ma trafić na podstawie klucza i powiązań. Jedna wiadomość może trafić do kilku kolejek jednocześnie. 
+W rabbitMQ wyróżniamy 3 typy routingu: 
+- direct - polega na dokładnym dopasowaniu klucza
+- topic - polega na prefiksowym dopasowaniu klucza, istnieją wildcardy - * to dowolne słowo, # to dowolny ciąg znaków
+- fanout - wiadomości trafiają do wszystkich kolejek (taki broadcast)
+
+Przykład routingu topic. 
+
+Mamy kolejki `queue_errors` powiązaną z kluczem `logs.error.*` oraz `queue_all` powiązaną z kluczem `logs.#`
+
+Wiadomość z kluczem `logs.error.system` trafi do obu kolejek, a wiadomość z kluczem `logs.info` trafi tylko do `queue.all`.

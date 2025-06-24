@@ -104,3 +104,18 @@ Servant Evictor to wyspecjalizowana forma servant locatora która implementuje m
 ### Co to komunikacja dwukierunkowa? 
 
 Komunikacja dwukierunkowa w ICE pozwala na przeływ żądań w obu kierunkach przez to samo połączenie umożliwiając serwerowu wysyłanie żądań callback do klienta przez istniejące połączenie.
+
+### Definicja operacji idempotentnej, podaj przykłady. Wyjaśnić komunikację strumieniową w gRPC. W jaki sposób może być użyta do usprawnienia komunikacji we współczenym Internecie?
+
+Operacja idempotentna to taka, której wielokrotne wywołanie daje ten sam efekt co pojedyncze. Wyróżniamy operację idempotentną bezpieczną (np. GET w żądaniu HTTP), której wielokrotne wywołanie nie zmienia nic w systemie rozproszonym, oraz operacje idempotentne niebezpieczne (np. PUT, DELETE), których wielokrotne wywołanie powinno zawsze zakończyć się tym samym efektem co pojedyncze, ale modyfikuje jakieś dane w systemie. Metoda POST nie jest idempotentna. 
+
+gRPC wykorzystuje strumieniowanie do przesyłania wielu danych w ramach jednego połączenia HTTP/2. Działa w czterech trybach: 
+
+- unary - klient wysyła jedno żądanie, serwer zwraca jedną odpowiedź (dodawanie dwóch liczb)
+- server streaming - klient wysyła jedno żądanie, serwer zwraca strumień odpowiedzi (dekompozycja na liczby pierwsze)
+- client streaming - klient wysyła wiele żądań, serwer zwraca jedną odpowiedz (obliczenie średniej z ciągu liczb)
+- bidirectional streaming - obie strony wysyłają dane strumieniowo (czat w czasie rzeczywistym)
+
+Komunikaty są serializowane za pomocą protokołu Protocol Buffers do postaci binarnerj. Komunikacja strumieniowa w gRPC redukuje opoźnienia (wielokrotne wykorzystywanie pojedynczego połączenia TCP zmniejsza narzut na dane). Serializacja danych znacznie zmniejsza ich rozmiar w porównaniu z konkurencyjną serializacją tekstową, ale jest mniej przyjazna dla człowieka. Wbudowana kontrola przepływów zapobiega przeciążeniom. 
+
+Przykłady użycia: streaming video, synchronizacja dwóch usług w czasie rzeczywistym, urzadzenia IoT. 

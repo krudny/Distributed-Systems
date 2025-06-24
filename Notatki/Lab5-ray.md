@@ -18,7 +18,7 @@ Wady:
 
 ## Ray framework
 
-Ray to narzędzie do rozproszonych obliczeń z prostym API. 
+Ray to framework klastrowy do rozproszonych obliczeń z prostym API. Umożliwia jednoczesne wykonywanie symulacji, treningu i serwowania. Umożliwia zunifikowany interfejs programistyczny oparty na taskach i aktorach. 
 
 ## Taski
 - wywołanie zdalnej, bezstanowej funkcji na workerze
@@ -79,7 +79,7 @@ Warstwa aplikacji:
 
 Warstwa systemu: 
 - Global Control Store (przechowuje metadane i graf obliczeń)
-- Bottom Up Distributed Scheduler (zarządza zadaniami)
+- Bottom Up Distributed Scheduler (zarządza zadaniami, dwupoziomowy - na poziomie węzła i globalny)
 - In Memory Distributed Object Store (przechowuje dane)
 
 Ray umożliwia równoległe przetwarzanie zadań przekazując referencje do obiektów zamiast ich wartości, co minimalizuje kopiowanie danych między węzłami. 
@@ -91,3 +91,30 @@ W przypadku błędów albo utraty danych system odtwarza je powtarzając odpowie
 - Parallel tasks: bezstanowe funkcje rozproszone jako zadania. 
 - Object as Futures: asynchroniczne wykoniwanie zadań i przekazywanie referencji. 
 - Actors: stanowe serwisy komunikujące się przez wiadomości. 
+
+## Pytania z kolokwiów
+
+### Porównaj dwa podstawowe elementy modelu programowania oferowanego przez framework Ray. 
+
+Ray to framework z prostym API stworzony do obliczeń w systemach rozproszonych. Dwa kluczowe elementy modelu programowania w Ray to użycie aktorów oraz tasków. 
+
+Aktor to podstawowa jednostka przetwarzania współbieżnego posiadający własną kolejkę wiadomości, izolowany stan oraz zachowanie.
+Może wysyłać wiadomości do innych aktorów zmieniając ich zachowanie lub tworzyć nowych aktorów. Wiadomości w kolejce wiadomości są atomowe, więc nie występuje race condition. Zadania wykonywane są sekwencyjnie. Aktorzy służą do obliczeń stanowych lub tworzenia usług, które mogą wymagać kontekstu który sam aktor przechowuje. Taki model programowania sprawdza się, gdy zadanie można podzielić na niezależne podzadania i wykonywać współbieżnie.
+
+Task to bezstanowe wywołanie metody na zdalnym workerze użyteczne przy równoległej transformacji danych. Task tworzy się z dekoratorem @ray.remote(), który zwraca obiekt future, na którym wywołanie metody .get() żeby otrzymać wynik jest blokujące. Taski mają automatyczny loadbalancing zadań pomiędzy workerami.
+
+### Opisz w jaki sposób zrealizowane jest wykonywanie obliczeń w tym frameworku (ang. computation model) 
+
+Model obliczeń w frameworku ray jest realizowany poprzez dynamiczny graf zależności, który ewoluuje podczas działania systemu. Węzły grafu to taski/aktorzy, a połączenia między nimi symbolizują zależności między wynikami zadań do wykonania. System uruchamia odpowiednie taski/aktorów kiedy tylko ich dane wejściowe zostaną obliczone. Ray umożliwia równoległe przetwarzanie zadań przekazując referencje do obiektów zamiast ich wartości, co minimalizuje kopiowanie danych między węzłami. 
+
+Architektura frameworka ray dzieli się na:
+
+Warstwę aplikacji:
+- taski (obliczenia bezstanowe)
+- aktorzy (obliczenia stanowe)
+- driver (program użytkownika)
+
+Warstwa systemu: 
+- Global Control Store (przechowuje metadane i graf obliczeń)
+- Bottom Up Distributed Scheduler (zarządza zadaniami)
+- In Memory Distibuted Object Store (przechowuje dane)
